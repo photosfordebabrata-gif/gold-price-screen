@@ -3,125 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gold Price Screen</title>
+    <title>Debabrata Ghosh | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            color: #202124;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        :root {
+            --bg-color: #f8f4e6;
+            --text-main: #1a1a1a;
+            --text-muted: #666;
+            --accent-red: #ff3b30;
+            --card-bg: #ffffff;
+        }
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+
         .container {
-            text-align: left;
-            padding: 20px;
-            max-width: 500px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .label {
-            font-size: 16px;
-            color: #70757a;
-            margin-bottom: 4px;
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
         }
-        .price-box {
-            font-size: 36px;
-            font-weight: normal;
-            margin-bottom: 8px;
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
         }
-        .meta-info {
-            font-size: 14px;
-            color: #70757a;
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
         }
-        .disclaimer {
-            color: #1a0dab;
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-red {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
             text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        
+        .btn-red:hover { opacity: 0.9; }
+
+        /* --- Profile Section --- */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .profile-pic {
+            width: 200px;
+            height: 200px;
+            border-radius: 24px;
+            object-fit: cover;
+            background-color: #ddd; 
+        }
+
+        .profile-info h3 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-info h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-info p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-black, .btn-outline {
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
             cursor: pointer;
+            border: none;
+            font-size: 1rem;
         }
-        .disclaimer:hover {
-            text-decoration: underline;
+
+        .btn-black {
+            background-color: var(--text-main);
+            color: white;
         }
-        .error {
-            color: #d93025;
-            font-size: 16px;
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
         }
+
+        .stats {
+            display: flex;
+            gap: 3rem;
+            margin-left: auto;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-item span {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* --- Tabs --- */
+        .tabs {
+            display: flex;
+            gap: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-main);
+        }
+
+        /* --- Video Grid --- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            aspect-ratio: 16 / 9;
+        }
+
+        /* Specific ratio for short videos (9:16) */
+        .shorts-grid .video-card {
+            aspect-ratio: 9 / 16;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .shorts-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .video-card iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container" id="widget-container">
-        <div id="loading-state">Loading real-time financial data...</div>
+    <div class="container">
+        <nav>
+            <div class="logo">Debabrata.</div>
+            <div class="nav-links">
+                <span>Home</span>
+                <span>My Portfolio</span>
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="btn-red">Contact Me</a>
+            </div>
+        </nav>
+
+        <div class="profile-header">
+            <img src="https://drive.google.com/uc?id=1xi3TOgBYvKdP51zPfTK_qRDoM8mhOjhI" alt="Debabrata Ghosh" class="profile-pic">
+            
+            <div class="profile-info">
+                <h3>Video Editor @ The Calibre Visuals</h3>
+                <h1>Debabrata Ghosh</h1>
+                <p>Crafting compelling narratives through long-form and short-form video content.</p>
+                
+                <div class="profile-buttons">
+                    <button class="btn-black">Hire Me</button>
+                    <button class="btn-outline">My Resume</button>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <h4>Projects</h4>
+                    <span>42</span>
+                </div>
+                <div class="stat-item">
+                    <h4>Experience</h4>
+                    <span>3 Yrs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('long')">Long Videos</button>
+            <button class="tab-btn" onclick="switchTab('short')">Short Videos</button>
+        </div>
+
+        <div id="long-videos" class="video-grid">
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1qDXnF8xxlUVhH8mWdniIU7P0P-c6Bic3/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1KT73yHozkJi_np3FFOr8JDsBR-_RHXpb/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1eNHfo2zGNnePQcGsHuMxdZSF6zPqih-C/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1rh3OEWztm6AvwYFCXAtgGTe_HddGgL3j/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1Ng9TX0J_CtMId26FOU59dax_GzCt6IYT/preview" allow="autoplay"></iframe>
+            </div>
+        </div>
+
+        <div id="short-videos" class="video-grid shorts-grid hidden">
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1j3W3mCTwK9Vlnj4ePqWXaIhVzJA9iI6Z/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1JDXYNKXcVE4fL0HvPYigA-Ht5pIW5Zb4/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1_j5Wtz8j51mvKyy2oGz63UxuGGeR19ew/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1ZeDB-13o0uB10Ykx05s449PTK6aRXMay/preview" allow="autoplay"></iframe>
+            </div>
+            <div class="video-card">
+                <iframe src="https://drive.google.com/file/d/1MYkXJSkWqjUO-yzrDu798dVfJKCcRiOq/preview" allow="autoplay"></iframe>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        const API_KEY = "goldapi-aedc7065e36f28e8ac7d9a5682eb0452-io";
-        const url = "https://www.goldapi.io/api/XAU/INR";
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const longGrid = document.getElementById('long-videos');
+            const shortGrid = document.getElementById('short-videos');
 
-        async function fetchGoldPrice() {
-            const container = document.getElementById('widget-container');
-            
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'x-access-token': API_KEY,
-                        'Content-Type': 'application/json'
-                    }
-                });
+            tabs.forEach(tab => tab.classList.remove('active'));
 
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status}`);
-                }
-
-                const data = await response.json();
-                
-                // 1. CONVERSION MATH: GoldAPI gives price per Troy Ounce (31.1034768 grams).
-                // We divide by 31.1034768 to get price per 1 gram, then multiply by 10 for the Indian standard.
-                const pricePerOunce = data.price;
-                const pricePer10Grams = (pricePerOunce / 31.1034768) * 10;
-
-                // 2. FORMAT NUMBER: Format to local Indian comma notation (e.g., 1,52,760.00)
-                const formattedPrice = new Intl.NumberFormat('en-IN', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(pricePer10Grams);
-
-                // 3. FORMAT TIMESTAMP: Convert UTC timestamp into India Standard Time (IST)
-                const apiTimestamp = data.timestamp * 1000; 
-                const options = { 
-                    day: 'numeric', 
-                    month: 'short', 
-                    hour: 'numeric', 
-                    minute: '2-digit', 
-                    hour12: true, 
-                    timeZone: 'Asia/Kolkata' 
-                };
-                
-                const formattedDate = new Intl.DateTimeFormat('en-IN', options).format(new Date(apiTimestamp));
-
-                // Render UI identical to Google's search result layout
-                container.innerHTML = `
-                    <div class="label">Gold price now (per 10g)</div>
-                    <div class="price-box">${formattedPrice} Indian Rupee</div>
-                    <div class="meta-info">
-                        <span>${formattedDate} IST</span>
-                        <span>·</span>
-                        <span class="disclaimer" onclick="alert('Data provided by GoldAPI. International spot prices converted to 10 grams. Local retail jewelry market prices may include additional import duty, GST, and making charges.')">Disclaimer</span>
-                    </div>
-                `;
-
-            } catch (error) {
-                console.error("Failed to fetch gold price data:", error);
-                container.innerHTML = `
-                    <div class="error">
-                        Failed to load live data. Please check your API limits or refresh.
-                    </div>
-                `;
+            if (tabName === 'long') {
+                tabs[0].classList.add('active');
+                longGrid.classList.remove('hidden');
+                shortGrid.classList.add('hidden');
+            } else if (tabName === 'short') {
+                tabs[1].classList.add('active');
+                shortGrid.classList.remove('hidden');
+                longGrid.classList.add('hidden');
             }
         }
-
-        fetchGoldPrice();
     </script>
 </body>
 </html>
