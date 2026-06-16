@@ -56,8 +56,6 @@
 
     <script>
         const API_KEY = "goldapi-aedc7065e36f28e8ac7d9a5682eb0452-io";
-        
-        // Fetching Gold (XAU) directly priced in INR
         const url = "https://www.goldapi.io/api/XAU/INR";
 
         async function fetchGoldPrice() {
@@ -78,18 +76,19 @@
 
                 const data = await response.json();
                 
-                // GoldAPI returns price per ounce. 
-                // Note: If you want it per 10 grams (standard Indian metric), change this to: (data.price / 31.1034768) * 10
-                const rawPrice = data.price; 
+                // 1. CONVERSION MATH: GoldAPI gives price per Troy Ounce (31.1034768 grams).
+                // We divide by 31.1034768 to get price per 1 gram, then multiply by 10 for the Indian standard.
+                const pricePerOunce = data.price;
+                const pricePer10Grams = (pricePerOunce / 31.1034768) * 10;
 
-                // Format the price into the Indian Numbering System (en-IN)
+                // 2. FORMAT NUMBER: Format to local Indian comma notation (e.g., 1,52,760.00)
                 const formattedPrice = new Intl.NumberFormat('en-IN', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
-                }).format(rawPrice);
+                }).format(pricePer10Grams);
 
-                // Format the timestamp provided by the API into India Standard Time (IST)
-                const apiTimestamp = data.timestamp * 1000; // Convert to milliseconds
+                // 3. FORMAT TIMESTAMP: Convert UTC timestamp into India Standard Time (IST)
+                const apiTimestamp = data.timestamp * 1000; 
                 const options = { 
                     day: 'numeric', 
                     month: 'short', 
@@ -99,17 +98,16 @@
                     timeZone: 'Asia/Kolkata' 
                 };
                 
-                // Formats to look like: "16 Jun, 4:17 pm"
                 const formattedDate = new Intl.DateTimeFormat('en-IN', options).format(new Date(apiTimestamp));
 
-                // Render the Google Finance styled template
+                // Render UI identical to Google's search result layout
                 container.innerHTML = `
-                    <div class="label">Gold price now</div>
+                    <div class="label">Gold price now (per 10g)</div>
                     <div class="price-box">${formattedPrice} Indian Rupee</div>
                     <div class="meta-info">
                         <span>${formattedDate} IST</span>
                         <span>·</span>
-                        <span class="disclaimer" onclick="alert('Data provided by GoldAPI.io. Spot prices may vary from local retail jewelry rates due to custom duties and local taxes.')">Disclaimer</span>
+                        <span class="disclaimer" onclick="alert('Data provided by GoldAPI. International spot prices converted to 10 grams. Local retail jewelry market prices may include additional import duty, GST, and making charges.')">Disclaimer</span>
                     </div>
                 `;
 
@@ -117,13 +115,12 @@
                 console.error("Failed to fetch gold price data:", error);
                 container.innerHTML = `
                     <div class="error">
-                        Failed to load live data. Check if your API key tier is active or try again later.
+                        Failed to load live data. Please check your API limits or refresh.
                     </div>
                 `;
             }
         }
 
-        // Execute the fetch immediately when the page loads
         fetchGoldPrice();
     </script>
 </body>
