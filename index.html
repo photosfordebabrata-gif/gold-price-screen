@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Gold Price</title>
+
+<style>
+body{
+    margin:0;
+    background:#000;
+    color:#FFD700;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family:Arial,sans-serif;
+}
+
+#price{
+    font-size:12vw;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div id="price">Loading...</div>
+
+<script>
+
+const API_KEY = "PASTE_YOUR_NEW_API_KEY_HERE";
+
+async function updatePrice() {
+
+    try {
+
+        const response = await fetch(
+            "https://www.goldapi.io/api/XAU/INR",
+            {
+                headers: {
+                    "x-access-token": API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        const ouncePrice = data.price;
+
+        const tenGramPrice =
+            (ouncePrice / 31.1034768) * 10;
+
+        document.getElementById("price").innerText =
+            "₹" +
+            Math.round(tenGramPrice)
+                .toLocaleString("en-IN");
+
+    } catch(error) {
+
+        document.getElementById("price").innerText =
+            "Price unavailable";
+
+        console.error(error);
+    }
+}
+
+updatePrice();
+
+setInterval(updatePrice, 300000);
+
+</script>
+
+</body>
+</html>
