@@ -11,7 +11,7 @@
             --text-main: #1a1a1a;
             --text-muted: #666;
             --accent-red: #ff3b30;
-            --card-bg: #ffffff;
+            --card-bg: #000000; /* Black background to prevent cut-offs */
         }
 
         * {
@@ -182,36 +182,74 @@
             background-color: var(--text-main);
         }
 
-        /* --- Video Grid --- */
+        /* --- Custom Video Player --- */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
         }
 
-        .video-card {
+        .shorts-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .video-wrapper {
+            position: relative;
             background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Specific ratio for short videos (9:16) */
-        .shorts-grid .video-card {
+        .shorts-grid .video-wrapper {
             aspect-ratio: 9 / 16;
             max-width: 300px;
             margin: 0 auto;
         }
-        
-        .shorts-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        }
 
-        .video-card iframe {
+        .video-wrapper video {
             width: 100%;
             height: 100%;
+            object-fit: contain; /* Ensures the video is NEVER cut off */
+            background-color: black;
+        }
+
+        /* Custom Controls UI */
+        .custom-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-wrapper:hover .custom-controls {
+            opacity: 1;
+        }
+
+        .control-btn {
+            background: transparent;
             border: none;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .hidden {
@@ -223,6 +261,7 @@
 <body>
 
     <div class="container">
+        <!-- Navigation -->
         <nav>
             <div class="logo">Debabrata.</div>
             <div class="nav-links">
@@ -234,11 +273,12 @@
             </div>
         </nav>
 
+        <!-- Profile Header -->
         <div class="profile-header">
             <img src="https://drive.google.com/uc?id=1xi3TOgBYvKdP51zPfTK_qRDoM8mhOjhI" alt="Debabrata Ghosh" class="profile-pic">
             
             <div class="profile-info">
-                <h3>Video Editor @ The Calibre Visuals</h3>
+                <h3>Video Editor @ Viditting</h3>
                 <h1>Debabrata Ghosh</h1>
                 <p>Crafting compelling narratives through long-form and short-form video content.</p>
                 
@@ -260,50 +300,55 @@
             </div>
         </div>
 
+        <!-- Section Tabs -->
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('long')">Long Videos</button>
             <button class="tab-btn" onclick="switchTab('short')">Short Videos</button>
         </div>
 
+        <!-- Long Videos Grid -->
         <div id="long-videos" class="video-grid">
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1qDXnF8xxlUVhH8mWdniIU7P0P-c6Bic3/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1qDXnF8xxlUVhH8mWdniIU7P0P-c6Bic3" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1KT73yHozkJi_np3FFOr8JDsBR-_RHXpb/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1KT73yHozkJi_np3FFOr8JDsBR-_RHXpb" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1eNHfo2zGNnePQcGsHuMxdZSF6zPqih-C/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1eNHfo2zGNnePQcGsHuMxdZSF6zPqih-C" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1rh3OEWztm6AvwYFCXAtgGTe_HddGgL3j/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1rh3OEWztm6AvwYFCXAtgGTe_HddGgL3j" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1Ng9TX0J_CtMId26FOU59dax_GzCt6IYT/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1Ng9TX0J_CtMId26FOU59dax_GzCt6IYT" preload="metadata"></video>
             </div>
         </div>
 
+        <!-- Short Videos Grid -->
         <div id="short-videos" class="video-grid shorts-grid hidden">
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1j3W3mCTwK9Vlnj4ePqWXaIhVzJA9iI6Z/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1j3W3mCTwK9Vlnj4ePqWXaIhVzJA9iI6Z" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1JDXYNKXcVE4fL0HvPYigA-Ht5pIW5Zb4/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1JDXYNKXcVE4fL0HvPYigA-Ht5pIW5Zb4" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1_j5Wtz8j51mvKyy2oGz63UxuGGeR19ew/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1_j5Wtz8j51mvKyy2oGz63UxuGGeR19ew" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1ZeDB-13o0uB10Ykx05s449PTK6aRXMay/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1ZeDB-13o0uB10Ykx05s449PTK6aRXMay" preload="metadata"></video>
             </div>
-            <div class="video-card">
-                <iframe src="https://drive.google.com/file/d/1MYkXJSkWqjUO-yzrDu798dVfJKCcRiOq/preview" allow="autoplay"></iframe>
+            <div class="video-wrapper">
+                <video src="https://drive.google.com/uc?export=download&id=1MYkXJSkWqjUO-yzrDu798dVfJKCcRiOq" preload="metadata"></video>
             </div>
         </div>
 
     </div>
 
+    <!-- JavaScript for Functionality -->
     <script>
+        // Tab Switching Logic
         function switchTab(tabName) {
             const tabs = document.querySelectorAll('.tab-btn');
             const longGrid = document.getElementById('long-videos');
@@ -321,6 +366,95 @@
                 longGrid.classList.add('hidden');
             }
         }
+
+        // Custom Video Player Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrappers = document.querySelectorAll('.video-wrapper');
+
+            wrappers.forEach(wrapper => {
+                const video = wrapper.querySelector('video');
+                
+                // Create control panel
+                const controls = document.createElement('div');
+                controls.className = 'custom-controls';
+                
+                // Build HTML for buttons
+                controls.innerHTML = `
+                    <button class="control-btn play-pause">Play</button>
+                    <button class="control-btn skip-back">-10s</button>
+                    <button class="control-btn skip-forward">+10s</button>
+                    <button class="control-btn speed-btn">1x Speed</button>
+                    <button class="control-btn fs-btn">Fullscreen</button>
+                `;
+                
+                wrapper.appendChild(controls);
+
+                // Select buttons
+                const playBtn = controls.querySelector('.play-pause');
+                const skipBack = controls.querySelector('.skip-back');
+                const skipForward = controls.querySelector('.skip-forward');
+                const speedBtn = controls.querySelector('.speed-btn');
+                const fsBtn = controls.querySelector('.fs-btn');
+
+                // Play/Pause Function
+                playBtn.addEventListener('click', () => {
+                    if (video.paused) {
+                        // Pause all other videos before playing this one
+                        document.querySelectorAll('video').forEach(v => v !== video ? v.pause() : null);
+                        document.querySelectorAll('.play-pause').forEach(btn => btn !== playBtn ? btn.innerText = "Play" : null);
+                        
+                        video.play();
+                        playBtn.innerText = 'Pause';
+                    } else {
+                        video.pause();
+                        playBtn.innerText = 'Play';
+                    }
+                });
+
+                // Skip 10 seconds back
+                skipBack.addEventListener('click', () => {
+                    video.currentTime -= 10;
+                });
+
+                // Skip 10 seconds forward
+                skipForward.addEventListener('click', () => {
+                    video.currentTime += 10;
+                });
+
+                // Playback Speed Toggle (1x -> 2x -> 3x -> 5x)
+                speedBtn.addEventListener('click', () => {
+                    if (video.playbackRate === 1) {
+                        video.playbackRate = 2;
+                        speedBtn.innerText = '2x Speed';
+                    } else if (video.playbackRate === 2) {
+                        video.playbackRate = 3;
+                        speedBtn.innerText = '3x Speed';
+                    } else if (video.playbackRate === 3) {
+                        video.playbackRate = 5;
+                        speedBtn.innerText = '5x Speed';
+                    } else {
+                        video.playbackRate = 1;
+                        speedBtn.innerText = '1x Speed';
+                    }
+                });
+
+                // Fullscreen Function
+                fsBtn.addEventListener('click', () => {
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.webkitRequestFullscreen) { /* Safari */
+                        video.webkitRequestFullscreen();
+                    } else if (video.msRequestFullscreen) { /* IE11 */
+                        video.msRequestFullscreen();
+                    }
+                });
+
+                // Reset Play button if video ends naturally
+                video.addEventListener('ended', () => {
+                    playBtn.innerText = 'Play';
+                });
+            });
+        });
     </script>
 </body>
 </html>
